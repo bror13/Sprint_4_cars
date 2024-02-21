@@ -2,11 +2,8 @@ import pandas as pd
 import streamlit as st
 
 import plotly.express as px
-import seaborn as sns
 import matplotlib.pyplot as plt
 
-st.header('Analysis of Vehicle Markets')
-st.write('Filter by vehicle make in the drop down below')
 
 df = pd.read_csv('vehicles_us.csv')
 
@@ -19,10 +16,14 @@ index_to_drop = df[df['model_year'] < 1950].index
 # Dropping these rows
 df.drop(index_to_drop, axis='rows', inplace=True)
 
-
 #separate the make and model strings into new columns
 df[['make','model']] = df['model'].str.split(" ", n=1, expand=True)
 
+
+#visualization starts here
+
+st.header('Analysis of Vehicle Markets')
+st.write('Filter by vehicle make in the drop down below')
 
 #create a dropdown selection filtered by vehicle make/brand
 make_options = df['make'].unique()
@@ -37,12 +38,13 @@ year_range = st.slider("Choose Year Range", value=(min_year, max_year), min_valu
 
 actual_range = list(range(year_range[0], year_range[1]+1))
 
-
-
 #specify the range of vehicles to be shown after filtering
 df_filtered = df[ (df.make == selected_make) & (df.model_year.isin(list(actual_range)) )]
 
 st.dataframe(df_filtered)
+
+
+
 
 #moving on to price analysis
 st.header('Price Analysis')
@@ -63,6 +65,9 @@ else:
 fig1 = px.histogram(df_filtered, x="price", color=selected_variable)
 fig1.update_layout(title="<b> Visual of price by {}</b>".format(selected_variable))
 st.plotly_chart(fig1)
+
+
+
 
 #moving on to scatterplot analysis of different variables
 
@@ -90,6 +95,10 @@ fig2.update_layout(title= "<b> Visual of price by {}</b>".format(choice_for_scat
 
 st.plotly_chart(fig2)
 
+
+
+
+
 #This next histogram will visualize odometer vs. various conditions
 
 st.header('Analysis of Listings by odometer values')
@@ -111,6 +120,8 @@ fig3 = px.histogram(df_filtered, x="odometer", color= selected_variable2)
 fig3.update_layout(title= "<b> Visual of odometer by {}</b>".format(selected_variable2))
 
 st.plotly_chart(fig3)
+
+
 
 
 
