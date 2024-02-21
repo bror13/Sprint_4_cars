@@ -17,7 +17,6 @@ The following libraries and packages are used in this project:
 -  pandas as pd
 -  streamlit as st
 -  plotly.express as px
--  matplotlib.pyplot as plt
 
 Instructions for running on a local machine:
 1. install the above mentioned libraries and packages on your machine with command line interface.
